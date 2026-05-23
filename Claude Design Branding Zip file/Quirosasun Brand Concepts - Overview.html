@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Quirosasun — Brand Concepts · Overview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin:0; padding:0; min-height:100vh; font-family:'Inter',system-ui,sans-serif; background:#EDE7DA; color:#2F3A23; }
+  body { -webkit-font-smoothing:antialiased; }
+  * { box-sizing:border-box; }
+  .concept-card { cursor:pointer; border-radius:10px; overflow:hidden; border:1px solid rgba(47,58,35,0.09); background:#EDE7DA; transition:box-shadow .22s,transform .22s; }
+  .concept-card:hover { box-shadow:0 14px 48px rgba(47,58,35,0.18); transform:translateY(-4px); }
+  .modal-overlay { position:fixed; inset:0; z-index:9000; background:rgba(18,24,14,0.82); overflow-y:auto; overscroll-behavior:contain; }
+  .modal-close { position:fixed; top:20px; right:24px; z-index:9001; background:rgba(47,58,35,0.92); color:#EDE7DA; border:none; border-radius:24px; padding:9px 20px; font-size:13px; font-weight:500; font-family:'Inter',system-ui,sans-serif; cursor:pointer; letter-spacing:.04em; display:flex; align-items:center; gap:8px; transition:background .15s; }
+  .modal-close:hover { background:rgba(47,58,35,1); }
+  .modal-nav { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); z-index:9001; display:flex; gap:10px; align-items:center; background:rgba(18,24,14,0.6); padding:8px 14px; border-radius:20px; }
+  .modal-nav button { border:none; cursor:pointer; padding:0; height:8px; border-radius:4px; transition:background .15s,width .18s; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+<script type="text/babel">
+
+// ─── concepts.jsx ────────────────────────────────────────────────────────────
+
+const ARTBOARD_W = 1320;
+const ARTBOARD_H = 7100;
+
+const PALETTE = {
+  bone:  '#EDE7DA',
+  cream: '#F2F4EE',
+  moss:  '#5F6F4A',
+  bark:  '#2F3A23',
+  clay:  '#B89576',
+  slate: '#1F211C',
+};
+
+const FONT_MONO = '"IBM Plex Mono", ui-monospace, monospace';
+
+function LogoImage({ tint = null, h = 260, opacity = 1, blend = 'multiply' }) {
+  return (
+    <img
+      src="assets/quirosasun-logo-clean.png"
+      alt="Quirosasun logo"
+      style={{ height: h, width: 'auto', display: 'block', mixBlendMode: blend, opacity, filter: tint || 'none' }}
+    />
+  );
+}
+
+function LogoOnDark({ h = 220 }) {
+  return (
+    <img
+      src="assets/quirosasun-logo-clean.png"
+      alt="Quirosasun logo"
+      style={{ height: h, width: 'auto', display: 'block', filter: 'invert(92%) sepia(7%) saturate(180%) hue-rotate(13deg) brightness(98%) contrast(92%)', mixBlendMode: 'screen' }}
+    />
+  );
+}
+
+function Swatch({ name, hex, role, dark = PALETTE.bark, h = 220 }) {
+  return (
+    <div>
+      <div style={{ width: '100%', height: h, background: hex, boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.04)' }} />
+      <div style={{ padding: '14px 4px 0' }}>
+        <div style={{ fontFamily: 'serif', fontSize: 22, color: dark }}>{name}</div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 11, color: dark, opacity: 0.65, marginTop: 4 }}>{hex}</div>
+        <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: PALETTE.moss, marginTop: 10, letterSpacing: '0.14em' }}>{role}</div>
+      </div>
+    </div>
+  );
+}
+
+function SectionLabel({ n, label, color = PALETTE.bark }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, borderTop: `1px solid ${color}`, paddingTop: 16, marginBottom: 36 }}>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 12, color, opacity: 0.55, letterSpacing: '0.08em' }}>{n}</div>
+      <div style={{ fontSize: 13, color, letterSpacing: '0.22em', textTransform: 'uppercase' }}>{label}</div>
+    </div>
+  );
+}
+
+function TypeRow({ tag, meta, last, children, color = PALETTE.bark, clayBorder = PALETTE.clay }) {
+  return (
+    <div style={{
+      display: 'grid', gridTemplateColumns: '180px 1fr', gap: 40,
+      alignItems: 'baseline', paddingTop: 36,
+      borderTop: `1px solid ${clayBorder}50`,
+      borderBottom: last ? `1px solid ${clayBorder}50` : 'none',
+      paddingBottom: last ? 36 : 0,
+      marginBottom: last ? 90 : 36,
+    }}>
+      <div style={{ fontFamily: FONT_MONO, fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color, opacity: 0.55, lineHeight: 1.75 }}>
+        <div style={{ marginBottom: 6 }}>{tag}</div>
+        {meta.map((m, i) => <div key={i} style={{ opacity: 0.85 }}>{m}</div>)}
+      </div>
+      <div>{children}</div>
+    </div>
+  );
+}
+
+// ─── brand-board.jsx ──────────────────────────────────────────────────────────
+
+function BrandBoard({ cfg }) {
+  const c = PALETTE;
+  const fontMono = FONT_MONO;
+  const { fontHead, fontSub, fontBody, fontPull, fontLabel } = cfg;
+
+  const btn = (variant, label, on = 'light') => {
+    const radius = cfg.buttons.radius;
+    const tt = cfg.buttons.case === 'upper' ? 'uppercase' : 'none';
+    const ls = cfg.buttons.tracking || 0;
+    const baseStyle = { padding: '16px 30px', borderRadius: radius, fontFamily: fontBody, fontSize: 14, fontWeight: 500, letterSpacing: ls, textTransform: tt, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 10, lineHeight: 1.1, whiteSpace: 'nowrap' };
+    const sm = { ...baseStyle, padding: '10px 22px', fontSize: 12, letterSpacing: cfg.buttons.case === 'upper' ? '0.16em' : '0.04em' };
+    if (on === 'dark') {
+      if (variant === 'primary')   return <button style={{ ...baseStyle, background: c.bone, color: c.bark, border: 'none' }}>{label}</button>;
+      if (variant === 'secondary') return <button style={{ ...baseStyle, background: 'transparent', color: c.bone, border: `1.5px solid ${c.bone}` }}>{label}</button>;
+      if (variant === 'accent')    return <button style={{ ...baseStyle, background: c.clay, color: c.bark, border: 'none' }}>{label}</button>;
+      if (variant === 'ghost')     return <button style={{ ...sm, background: 'transparent', color: c.bone, border: `1px solid ${c.bone}80` }}>{label}</button>;
+      if (variant === 'quiet')     return <button style={{ ...sm, background: 'rgba(255,255,255,0.08)', color: c.bone, border: 'none' }}>{label}</button>;
+    }
+    if (variant === 'primary')   return <button style={{ ...baseStyle, background: c.moss, color: c.bone, border: 'none' }}>{label}</button>;
+    if (variant === 'secondary') return <button style={{ ...baseStyle, background: 'transparent', color: c.bark, border: `1.5px solid ${c.bark}` }}>{label}</button>;
+    if (variant === 'dark')      return <button style={{ ...baseStyle, background: c.bark, color: c.bone, border: 'none' }}>{label}</button>;
+    if (variant === 'accent')    return <button style={{ ...baseStyle, background: c.clay, color: c.bark, border: 'none' }}>{label}</button>;
+    if (variant === 'ghost')     return <button style={{ ...sm, background: 'transparent', color: c.bark, border: `1px solid ${c.clay}` }}>{label}</button>;
+    if (variant === 'quiet')     return <button style={{ ...sm, background: c.cream, color: c.bark, border: 'none' }}>{label}</button>;
+  };
+
+  return (
+    <div style={{ width: ARTBOARD_W, minHeight: ARTBOARD_H, background: c.bone, color: c.bark, fontFamily: fontBody, padding: '80px 80px 160px', boxSizing: 'border-box', position: 'relative' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 48 }}>
+        <span style={{ fontFamily: fontMono, fontSize: 11, color: c.moss, letterSpacing: '0.18em' }}>{cfg.code}</span>
+        <span style={{ fontFamily: fontMono, fontSize: 11, color: c.bark, opacity: 0.55, letterSpacing: '0.08em' }}>QUIROSASUN · BILBAO · v1.0 — May 2026</span>
+      </div>
+
+      <div style={{ marginBottom: 90 }}>
+        <div style={{ fontFamily: fontMono, fontSize: 12, letterSpacing: '0.34em', textTransform: 'uppercase', color: c.moss, marginBottom: 28 }}>Brand Guidelines · {cfg.kicker}</div>
+        <h1 style={{ fontFamily: fontHead, margin: 0, color: c.bark, ...cfg.headStyle, fontSize: 140, whiteSpace: 'pre-line' }}>{cfg.copy.hero}</h1>
+        <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 60, marginTop: 44, alignItems: 'start' }}>
+          <p style={{ fontFamily: fontBody, fontSize: 19, lineHeight: 1.6, color: c.bark, opacity: 0.85, margin: 0 }}>{cfg.copy.lead}</p>
+          <div style={{ borderLeft: `1px solid ${c.clay}`, paddingLeft: 24 }}>
+            <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.clay, marginBottom: 12 }}>Why this concept is different</div>
+            <div style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 22, lineHeight: 1.4, color: c.bark }}>{cfg.why}</div>
+          </div>
+        </div>
+      </div>
+
+      <SectionLabel n="01" label="Logo system — centred on bone, the editorial canvas" />
+      <div style={{ background: c.cream, padding: '80px 60px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+        <LogoImage h={400} blend="multiply" />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 90 }}>
+        <div style={{ background: c.bone, padding: 28, border: `1px solid ${c.clay}40`, minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><LogoImage h={120} /></div>
+        <div style={{ background: c.cream, padding: 28, minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><LogoImage h={100} /></div>
+        <div style={{ background: c.moss, padding: 28, minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><LogoOnDark h={100} /></div>
+        <div style={{ background: c.bark, padding: 28, minHeight: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><LogoOnDark h={90} /></div>
+      </div>
+
+      <SectionLabel n="02" label="Colour palette — shared across all concepts" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 0, marginBottom: 24 }}>
+        <Swatch name="Bone" hex="#EDE7DA" role="Primary · 50%" />
+        <Swatch name="Cream" hex="#F2F4EE" role="Surface · 20%" />
+        <Swatch name="Moss" hex="#5F6F4A" role="Brand · 15%" />
+        <Swatch name="Bark" hex="#2F3A23" role="Type · 10%" />
+        <Swatch name="Clay" hex="#B89576" role="Accent · 5%" />
+      </div>
+      <div style={{ background: c.cream, padding: '20px 28px', marginBottom: 90, display: 'flex', alignItems: 'center', gap: 18 }}>
+        <span style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', color: c.moss }}>NOTE</span>
+        <span style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 17, color: c.bark, lineHeight: 1.4 }}>Bone is always the canvas. Moss carries the brand. Clay is the only warm note — illustration tone &amp; hover state only, never a button or body text colour.</span>
+      </div>
+
+      <SectionLabel n="03" label={`Typography — ${cfg.typeStack}`} />
+      <TypeRow tag="Headline" meta={cfg.typeMeta.head}>
+        <div style={{ fontFamily: fontHead, color: c.bark, ...cfg.headStyle, fontSize: 96 }}>{cfg.typeMeta.headSample || cfg.copy.hero}</div>
+      </TypeRow>
+      <TypeRow tag="Subheadline" meta={cfg.typeMeta.sub}>
+        <div style={{ fontFamily: fontSub, color: c.bark, ...cfg.subStyle, fontSize: 36, lineHeight: 1.25, opacity: 0.9 }}>{cfg.typeMeta.subSample}</div>
+      </TypeRow>
+      <TypeRow tag="Body" meta={cfg.typeMeta.body}>
+        <div style={{ fontFamily: fontBody, ...cfg.bodyStyle, fontSize: 17, lineHeight: 1.65, color: c.bark, opacity: 0.88, maxWidth: 620 }}>{cfg.typeMeta.bodySample}</div>
+      </TypeRow>
+      <TypeRow tag="Pull quote" meta={cfg.typeMeta.pull} last={true}>
+        <div style={{ fontFamily: fontPull, ...cfg.pullStyle, fontSize: 28, lineHeight: 1.35, color: c.clay, maxWidth: 700 }}>"{cfg.copy.pull}"</div>
+      </TypeRow>
+
+      <SectionLabel n="04" label={`CTAs — ${cfg.buttons.label}`} />
+      <div style={{ background: c.bone, padding: '28px 32px', marginBottom: 14, border: `1px solid ${c.clay}30` }}>
+        <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.moss, marginBottom: 18 }}>On Bone — primary canvas</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginBottom: 12 }}>{btn('primary', cfg.copy.cta.primary)}{btn('secondary', cfg.copy.cta.secondary)}{btn('dark', cfg.copy.cta.tertiary)}</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>{btn('accent', cfg.copy.cta.accent)}{btn('ghost', cfg.copy.cta.ghost)}{btn('quiet', cfg.copy.cta.quiet)}</div>
+      </div>
+      <div style={{ background: c.cream, padding: '28px 32px', marginBottom: 14 }}>
+        <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.moss, marginBottom: 18 }}>On Cream — secondary surface</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>{btn('primary', cfg.copy.cta.primary)}{btn('secondary', cfg.copy.cta.secondary)}{btn('accent', cfg.copy.cta.accent)}{btn('ghost', cfg.copy.cta.ghost)}</div>
+      </div>
+      <div style={{ background: c.moss, padding: '28px 32px', marginBottom: 14 }}>
+        <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.bone, opacity: 0.8, marginBottom: 18 }}>On Moss — brand colour</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>{btn('primary', cfg.copy.cta.primary,'dark')}{btn('secondary', cfg.copy.cta.secondary,'dark')}{btn('accent', cfg.copy.cta.accent,'dark')}{btn('ghost', cfg.copy.cta.ghost,'dark')}</div>
+      </div>
+      <div style={{ background: c.bark, padding: '28px 32px', marginBottom: 90 }}>
+        <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.clay, marginBottom: 18 }}>On Bark — editorial / dark mode</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>{btn('primary', cfg.copy.cta.primary,'dark')}{btn('secondary', cfg.copy.cta.secondary,'dark')}{btn('accent', cfg.copy.cta.accent,'dark')}{btn('quiet', cfg.copy.cta.quiet,'dark')}</div>
+      </div>
+
+      <SectionLabel n="05" label="Mission · Vision" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, marginBottom: 60 }}>
+        <div>
+          <div style={{ fontFamily: fontMono, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.clay, marginBottom: 16 }}>Mission</div>
+          <div style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 28, lineHeight: 1.3, color: c.bark }}>{cfg.copy.mission}</div>
+        </div>
+        <div>
+          <div style={{ fontFamily: fontMono, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase', color: c.clay, marginBottom: 16 }}>Vision</div>
+          <div style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 28, lineHeight: 1.3, color: c.bark }}>{cfg.copy.vision}</div>
+        </div>
+      </div>
+
+      <SectionLabel n="06" label="Values — five, in priority order" />
+      <div style={{ marginBottom: 90, background: c.cream, padding: '36px 44px' }}>
+        {cfg.copy.values.map(([n, h, b], i) => (
+          <div key={n} style={{ display: 'grid', gridTemplateColumns: '60px 280px 1fr', gap: 28, padding: '22px 0', borderTop: i ? `1px solid ${c.clay}40` : 'none', alignItems: 'baseline' }}>
+            <div style={{ fontFamily: fontMono, fontSize: 12, color: c.moss, opacity: 0.8 }}>{n}</div>
+            <div style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 24, color: c.bark, lineHeight: 1.1 }}>{h}</div>
+            <div style={{ fontFamily: fontBody, fontSize: 15, lineHeight: 1.55, color: c.bark, opacity: 0.78 }}>{b}</div>
+          </div>
+        ))}
+      </div>
+
+      <SectionLabel n="07" label="Background applications — how the wordmark sits on each surface" />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginBottom: 90 }}>
+        <div style={{ background: c.bone, padding: '32px 26px', minHeight: 240, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ fontFamily: fontHead, ...cfg.headStyle, fontSize: 38, color: c.bark, lineHeight: 1.05 }}>{cfg.copy.tagline}</div>
+          <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: c.bark, opacity: 0.65 }}>Bone · primary canvas</div>
+        </div>
+        <div style={{ background: c.moss, color: c.bone, padding: '32px 26px', minHeight: 240, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ fontFamily: fontHead, ...cfg.headStyle, fontSize: 38, color: c.bone, lineHeight: 1.05 }}>{cfg.copy.tagline}</div>
+          <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', opacity: 0.8 }}>Moss · brand colour</div>
+        </div>
+        <div style={{ background: c.bark, color: c.bone, padding: '32px 26px', minHeight: 240, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div style={{ fontFamily: fontHead, ...cfg.headStyle, fontSize: 38, color: c.bone, lineHeight: 1.05 }}>{cfg.copy.tagline}</div>
+          <div style={{ fontFamily: fontMono, fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: c.clay, opacity: 0.85 }}>Bark · editorial</div>
+        </div>
+      </div>
+
+      <SectionLabel n="08" label="Do · Don't — voice & application" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, marginBottom: 90 }}>
+        <div>
+          <div style={{ fontFamily: fontMono, fontSize: 11, letterSpacing: '0.24em', color: c.moss, marginBottom: 18 }}>DO</div>
+          {cfg.copy.doList.map((t, i) => (
+            <div key={i} style={{ display: 'flex', gap: 14, padding: '12px 0', borderTop: i ? `1px solid ${c.clay}50` : 'none' }}>
+              <div style={{ color: c.moss, fontFamily: fontPull, fontSize: 18 }}>✓</div>
+              <div style={{ fontFamily: fontBody, fontSize: 15, lineHeight: 1.5, color: c.bark }}>{t}</div>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div style={{ fontFamily: fontMono, fontSize: 11, letterSpacing: '0.24em', color: c.clay, marginBottom: 18 }}>DON'T</div>
+          {cfg.copy.dontList.map((t, i) => (
+            <div key={i} style={{ display: 'flex', gap: 14, padding: '12px 0', borderTop: i ? `1px solid ${c.clay}50` : 'none' }}>
+              <div style={{ color: c.clay, fontFamily: fontPull, fontSize: 18 }}>×</div>
+              <div style={{ fontFamily: fontBody, fontSize: 15, lineHeight: 1.5, color: c.bark }}>{t}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', borderTop: `1px solid ${c.bark}`, paddingTop: 18, marginTop: 30 }}>
+        <span style={{ fontFamily: fontSub, ...cfg.subStyle, fontSize: 22, color: c.bark }}>{cfg.name} — {cfg.descriptor}</span>
+        <span style={{ fontFamily: fontMono, fontSize: 11, color: c.bark, opacity: 0.6, letterSpacing: '0.14em' }}>QUIROSASUN · {cfg.code}</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── concept-a.jsx ────────────────────────────────────────────────────────────
+
+const CONFIG_A = {
+  code: 'CONCEPT A · 01/03', name: 'Editorial Warm', kicker: 'Editorial Warm',
+  descriptor: 'Cormorant Garamond · 8 px rounded · warm voice',
+  why: 'A classic editorial serif carries the brand. Cormorant Garamond has anatomical contrast in its strokes that feels appropriate for a chiropractic practice — refined, considered, and warm without being precious.',
+  fontHead: '"Cormorant Garamond", Georgia, serif', fontSub: '"Cormorant Garamond", Georgia, serif',
+  fontBody: '"Inter", system-ui, sans-serif', fontPull: '"Cormorant Garamond", Georgia, serif',
+  fontLabel: '"Inter", system-ui, sans-serif',
+  headStyle: { fontWeight: 400, lineHeight: 0.95, letterSpacing: '-0.01em' },
+  subStyle:  { fontWeight: 400, fontStyle: 'italic' },
+  bodyStyle: { fontWeight: 400 }, pullStyle: { fontWeight: 400, fontStyle: 'italic' },
+  labelStyle: { fontWeight: 500, letterSpacing: '0.28em', textTransform: 'uppercase' },
+  typeStack: 'Cormorant Garamond + Inter',
+  typeMeta: {
+    head: ['Cormorant Garamond · 400', '88 – 140 px', 'line-height 0.95'],
+    headSample: 'Care for the body that carries you.',
+    sub: ['Cormorant Italic · 400', '28 – 36 px', 'line-height 1.25'],
+    subSample: 'Chiropractic care in Bilbao, for people taking the long view on their body.',
+    body: ['Inter Regular · 400', '17 – 18 px', 'line-height 1.65'],
+    bodySample: "Sara Crespo has been practising chiropractic care since 2017. She trained at the Barcelona College of Chiropractic, holds a master's from Pompeu Fabra, and a Doctor of Chiropractic from the European Academy.",
+    pull: ['Cormorant Italic · 400', '24 – 32 px', 'colour: Clay'],
+  },
+  buttons: { radius: 8, case: 'sentence', tracking: '0.01em', label: 'softly rounded · 8 px radius · sentence case' },
+  copy: {
+    hero: 'Care for the body\nthat carries you.', tagline: 'Care for the body that carries you.',
+    lead: 'Quirosasun is a chiropractic practice in Bilbao for people who take the long view on their health. Sara Crespo combines deep clinical training with the kind of steady attention most clinics no longer have time for.',
+    pull: 'Your spine carries around a hundred million signals an hour. The work is finding which ones are quiet, and helping the line open back up.',
+    cta: { primary: 'Book the first conversation', secondary: 'Read about Sara', tertiary: 'Send a message →', accent: 'Care plans', ghost: 'Subscribe to the letter', quiet: 'Learn more' },
+    mission: 'To restore and protect the connection between brain and body — clinically grounded, delivered with patience and care.',
+    vision: 'A Bilbao where serious people understand the spine the way they understand their teeth — a thing you look after for life.',
+    values: [['01','Clinical seriousness','The work is medical, not magical. Plans are explained. Results are measured.'],['02','Patient time','No rushing. The pace of care is part of the care.'],['03','Adult conversation','Patients are treated as capable of understanding their bodies.'],['04','Material honesty','Real materials, real outcomes, real timeframes. No spa theatre.'],['05','Quiet excellence','The work speaks. The brand does not shout.']],
+    doList: ['Use Cormorant Italic for subheads and pull quotes','Keep paragraphs short. Lead with the verb','Address the reader directly ("your spine", "your body")','Speak in declarative sentences. Avoid superlatives','Pair every primary headline with a single image or anatomical line'],
+    dontList: ['Capitalise every word in a headline — sentence case only','Use exclamation marks, emojis, or "wellness journey" language','Place Cormorant in body copy — it is a display face only','Set Clay as a button colour or for body type','Use the retired emerald green from the previous logo anywhere'],
+  },
+};
+function ConceptA() { return <BrandBoard cfg={CONFIG_A} />; }
+
+// ─── concept-b.jsx ────────────────────────────────────────────────────────────
+
+const CONFIG_B = {
+  code: 'CONCEPT B · 02/03', name: 'Modern Italic', kicker: 'Modern Italic',
+  descriptor: 'Instrument Serif Italic · pill CTAs · brand-line voice',
+  why: 'Instrument Serif Italic gives the brand an editorial, almost hand-set quality. The italic display anchors every page in the brand line — "Care for the line that runs you" — making the tagline the visual hero, not a sign-off.',
+  fontHead: '"Instrument Serif", Georgia, serif', fontSub: '"Instrument Serif", Georgia, serif',
+  fontBody: '"Inter", system-ui, sans-serif', fontPull: '"Instrument Serif", Georgia, serif',
+  fontLabel: '"Inter", system-ui, sans-serif',
+  headStyle: { fontWeight: 400, fontStyle: 'italic', lineHeight: 0.92, letterSpacing: '-0.015em' },
+  subStyle:  { fontWeight: 400, fontStyle: 'normal' },
+  bodyStyle: { fontWeight: 400 }, pullStyle: { fontWeight: 400, fontStyle: 'italic' },
+  labelStyle: { fontWeight: 500, letterSpacing: '0.32em', textTransform: 'uppercase' },
+  typeStack: 'Instrument Serif + Inter',
+  typeMeta: {
+    head: ['Instrument Serif Italic · 400', '96 – 160 px', 'line-height 0.92'],
+    headSample: 'Care for the line that runs you.',
+    sub: ['Instrument Serif · 400', '32 – 40 px', 'line-height 1.2'],
+    subSample: 'Chiropractic care in Bilbao for people taking the long view on their body.',
+    body: ['Inter Regular · 400', '17 – 18 px', 'line-height 1.65'],
+    bodySample: 'The work she does is specific. She looks after the spine and the nervous system, with the time and attention that complicated bodies need. Most of her patients come after trying other things.',
+    pull: ['Instrument Italic · 400', '24 – 32 px', 'colour: Clay'],
+  },
+  buttons: { radius: 999, case: 'sentence', tracking: '0.02em', label: 'pill · fully rounded · sentence case' },
+  copy: {
+    hero: 'Care for the line\nthat runs you.', tagline: 'Care for the line that runs you.',
+    lead: 'Quirosasun is a chiropractic practice in Bilbao built around one idea: the spine carries the signal that runs everything. Sara Crespo has been looking after that line for almost a decade.',
+    pull: 'The brain has a body. We look after the connection — the line, the signal, the long quiet conversation between the two.',
+    cta: { primary: 'Book your first visit', secondary: 'About the practice', tertiary: "Read Sara's story →", accent: 'Care plans', ghost: '↓ The letter, monthly', quiet: 'Workshops' },
+    mission: 'To restore and protect the line between brain and body — one spine at a time, in a practice built for thinking and being looked after well.',
+    vision: 'A Bilbao where the spine is understood as the conversation it carries — and people care for that line the way they care for their teeth.',
+    values: [['I','Clinical seriousness','The work is medical, not magical. The line is a measurable thing.'],['II','Patient time','The pace of care is part of the care. We do not rush the line.'],['III','Adult conversation','You are not a case file. You are someone with a body and questions.'],['IV','Material honesty','Real outcomes, real timeframes, real materials. No spa theatre.'],['V','Quiet excellence','The work speaks. The brand line is a whisper, not a shout.']],
+    doList: ['Let the tagline be the headline whenever it can be','Use italic for emphasis and for the brand line itself','Write in image-led sentences — "the line", "the signal", "the room"','Set primary lines large and unhurried; let space carry weight','Always end captions and emails with the brand line'],
+    dontList: ['Use bold weights — italic and roman are the two registers','Crowd the headline with subtitles or kickers','Square the corners of buttons — pill or nothing','Use Clay as a button colour or for body text','Capitalise the brand line. Lowercase, italic, in sentence'],
+  },
+};
+function ConceptB() { return <BrandBoard cfg={CONFIG_B} />; }
+
+// ─── concept-c.jsx ────────────────────────────────────────────────────────────
+
+const CONFIG_C = {
+  code: 'CONCEPT C · 03/03', name: 'Quiet Modern', kicker: 'Quiet Modern',
+  descriptor: 'Inter Tight + IBM Plex Mono · sharp CTAs · precise voice',
+  why: 'A precise modernist sans paired with mono accents. The brand reads as architectural and intelligent — closer to a Scandinavian dental clinic than a wellness centre. Mono labels carry technical information (dates, file numbers, room names) as a signature element.',
+  fontHead: '"Inter Tight", "Inter", system-ui, sans-serif', fontSub: '"Inter Tight", "Inter", system-ui, sans-serif',
+  fontBody: '"Inter", system-ui, sans-serif', fontPull: '"IBM Plex Mono", ui-monospace, monospace',
+  fontLabel: '"IBM Plex Mono", ui-monospace, monospace',
+  headStyle: { fontWeight: 500, lineHeight: 0.94, letterSpacing: '-0.045em' },
+  subStyle:  { fontWeight: 400, letterSpacing: '-0.02em' },
+  bodyStyle: { fontWeight: 400 }, pullStyle: { fontWeight: 400, letterSpacing: '0.02em' },
+  labelStyle: { fontWeight: 400, letterSpacing: '0.18em', textTransform: 'uppercase' },
+  typeStack: 'Inter Tight + Inter + IBM Plex Mono',
+  typeMeta: {
+    head: ['Inter Tight · 500', '96 – 160 px', 'tracking −4.5%'],
+    headSample: 'Restore the signal.',
+    sub: ['Inter Tight · 400', '28 – 36 px', 'tracking −2%'],
+    subSample: 'Chiropractic care in Bilbao, for people taking the long view on their body.',
+    body: ['Inter Regular · 400', '16 – 18 px', 'line-height 1.65'],
+    bodySample: "Sara Crespo has been practising since 2017. She trained at the Barcelona College of Chiropractic, holds a master's from Pompeu Fabra, and a Doctor of Chiropractic from the European Academy.",
+    pull: ['IBM Plex Mono Italic · 400', '18 – 22 px', 'tracked +0.02em · Clay'],
+  },
+  buttons: { radius: 0, case: 'upper', tracking: '0.14em', label: 'sharp · 0 px radius · tracked uppercase' },
+  copy: {
+    hero: 'Restore\nthe signal.', tagline: 'Restore the signal.',
+    lead: 'Quirosasun is a chiropractic practice in Bilbao. Spine and nervous-system care, delivered with the clinical seriousness the work deserves and the time it requires.',
+    pull: 'The spine carries about a hundred million signals an hour. Most of them are working. Some are not. The work is finding which.',
+    cta: { primary: 'Book first conversation →', secondary: 'About · Sara', tertiary: 'Enquire →', accent: 'Care plans', ghost: 'Secondary', quiet: 'Read the notes' },
+    mission: 'To restore and protect the connection between brain and body — measured, paced, clinically grounded. The line is the practice.',
+    vision: 'A Bilbao where the spine is understood as a long-term system, not a fix-it appointment. Patients arrive informed and leave more informed.',
+    values: [['01','Clinical seriousness','Medical, not magical. Every plan explained. Every result measured.'],['02','Patient time','No rushing. The pace of care is part of the care.'],['03','Adult conversation','Patients are treated as capable of understanding their own bodies.'],['04','Material honesty','Real outcomes. Real timeframes. No spa theatre.'],['05','Quiet excellence','The work speaks. The brand does not shout.']],
+    doList: ['Use mono type for dates, file numbers, room names and labels','Reserve full uppercase for buttons and metadata only','Set columns with rules, not boxes — let the grid do the work','Write in short, declarative sentences. Verb first','Always pair a measured fact with a plain-language explanation'],
+    dontList: ['Round the corners of buttons — edges are sharp at all sizes','Use italic decoratively — reserve it for pull quotes','Add gradients, drop-shadows or skeuomorphic chrome','Centre long-form text. Always left-aligned','Use the retired emerald, vivid greens, or pure black surfaces'],
+  },
+};
+function ConceptC() { return <BrandBoard cfg={CONFIG_C} />; }
+
+// ─── App ──────────────────────────────────────────────────────────────────────
+
+const CONCEPTS = [
+  { id: 'a', label: 'Concept A', tag: 'Editorial Warm', sub: 'Cormorant Garamond · rounded CTAs' },
+  { id: 'b', label: 'Concept B', tag: 'Modern Italic',  sub: 'Instrument Serif · pill CTAs'     },
+  { id: 'c', label: 'Concept C', tag: 'Quiet Modern',   sub: 'Inter Tight · sharp CTAs'         },
+];
+
+function ConceptContent({ id }) {
+  if (id === 'a') return <ConceptA />;
+  if (id === 'b') return <ConceptB />;
+  if (id === 'c') return <ConceptC />;
+  return null;
+}
+
+function App() {
+  const [active, setActive] = React.useState(null);
+
+  React.useEffect(() => {
+    document.body.style.overflow = active ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [active]);
+
+  React.useEffect(() => {
+    const fn = (e) => { if (e.key === 'Escape') setActive(null); };
+    document.addEventListener('keydown', fn);
+    return () => document.removeEventListener('keydown', fn);
+  }, []);
+
+  const THUMB_SCALE = 400 / ARTBOARD_W;
+
+  return (
+    <div>
+      {/* Header */}
+      <div style={{ padding: '60px 64px 48px', maxWidth: 1460, margin: '0 auto' }}>
+        <div style={{ fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#5F6F4A', marginBottom: 10 }}>
+          Quirosasun · Bilbao · Brand Concepts v1
+        </div>
+        <h1 style={{ fontFamily: "'Inter Tight','Inter',system-ui,sans-serif", fontSize: 36, fontWeight: 500, letterSpacing: '-0.02em', color: '#2F3A23', margin: '0 0 10px' }}>
+          Three directions
+        </h1>
+        <p style={{ fontSize: 15, color: '#7A8B65', margin: 0, lineHeight: 1.6 }}>
+          Same visual system — colour, spacing, logo. Differences are typography, CTA shape, writing voice.
+          Click any concept to read the full board.
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 28, padding: '0 64px 100px', maxWidth: 1460, margin: '0 auto' }}>
+        {CONCEPTS.map((c) => (
+          <div key={c.id} className="concept-card" onClick={() => setActive(c.id)} tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && setActive(c.id)}>
+            {/* Thumbnail */}
+            <div style={{ overflow: 'hidden', height: 500, position: 'relative', background: '#EDE7DA' }}>
+              <div style={{ transformOrigin: 'top left', transform: `scale(${THUMB_SCALE})`, width: ARTBOARD_W, pointerEvents: 'none', userSelect: 'none' }}>
+                <ConceptContent id={c.id} />
+              </div>
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80, background: 'linear-gradient(to bottom,transparent,rgba(237,231,218,0.9))', pointerEvents: 'none' }} />
+            </div>
+            {/* Label */}
+            <div style={{ padding: '16px 20px 18px', borderTop: '1px solid rgba(47,58,35,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 600, color: '#2F3A23', marginBottom: 3 }}>
+                  {c.label} <span style={{ fontWeight: 400, color: '#5F6F4A' }}>· {c.tag}</span>
+                </div>
+                <div style={{ fontSize: 12, color: '#9CA88A' }}>{c.sub}</div>
+              </div>
+              <div style={{ width: 30, height: 30, flexShrink: 0, border: '1px solid rgba(47,58,35,0.14)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5F6F4A' }}>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                  <path d="M7 1h4v4M5 11H1V7M11 1L7.5 4.5M1 11l3.5-3.5"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal */}
+      {active && (
+        <div className="modal-overlay" onClick={(e) => { if (e.target === e.currentTarget) setActive(null); }}>
+          <button className="modal-close" onClick={() => setActive(null)}>
+            <svg width="10" height="10" viewBox="0 0 10 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" fill="none">
+              <path d="M1 1l8 8M9 1L1 9"/>
+            </svg>
+            Close
+          </button>
+          <div style={{ width: ARTBOARD_W, margin: '56px auto 100px', borderRadius: 10, overflow: 'hidden', boxShadow: '0 28px 90px rgba(0,0,0,0.4)' }}>
+            <ConceptContent id={active} />
+          </div>
+          <div className="modal-nav">
+            {CONCEPTS.map((c) => (
+              <button key={c.id} title={c.label} onClick={() => setActive(c.id)}
+                style={{ background: c.id === active ? '#EDE7DA' : 'rgba(237,231,218,0.3)', width: c.id === active ? 20 : 8 }} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

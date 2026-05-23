@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Start-Process \"chrome\" -ArgumentList \"`\"C:\\\\Users\\\\marte\\\\Documents\\\\Claude\\\\Sara New Branding\\\\Claude Design Branding Zip file\\\\quirosasun-presentation.html`\"\")",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\marte\\\\Documents\\\\Claude\\\\Sara New Branding\\\\3. Current Street Presence\" -Force | ForEach-Object { $_.Name })"
+    ]
+  }
+}

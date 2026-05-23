@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quirosasun · Brand Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bone:  #EDE7DA;
+      --cream: #F2F4EE;
+      --moss:  #5F6F4A;
+      --bark:  #2F3A23;
+      --clay:  #B89576;
+      --slate: #1F211C;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans:  'Inter', sans-serif;
+      --mono:  'IBM Plex Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bone);
+      color: var(--bark);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .audit-header {
+      background: var(--bark);
+      color: var(--bone);
+      padding: 100px 80px 88px;
+    }
+
+    .audit-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--clay);
+      display: block;
+      margin-bottom: 36px;
+      border-top: 1px solid var(--moss);
+      padding-top: 14px;
+      width: fit-content;
+    }
+
+    .audit-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(44px, 5.5vw, 74px);
+      line-height: 1.05;
+      color: var(--bone);
+      max-width: 680px;
+      margin-bottom: 32px;
+    }
+
+    .audit-title em {
+      font-style: italic;
+      color: var(--clay);
+    }
+
+    .audit-intro {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: rgba(237,231,218,.58);
+      max-width: 520px;
+    }
+
+    /* ── SECTION ROWS ── */
+    .section-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid rgba(47,58,35,.09);
+    }
+
+    .section-row:nth-child(odd) { background: var(--bone); }
+    .section-row:nth-child(even) { background: var(--cream); }
+
+    /* IMAGE SIDE */
+    .row-image {
+      padding: 72px 48px 72px 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 1px solid rgba(47,58,35,.09);
+    }
+
+    .img-label {
+      font-family: var(--mono);
+      font-size: 9.5px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 20px;
+    }
+
+    .row-image img {
+      width: 100%;
+      border-radius: 3px;
+      box-shadow: 0 6px 32px rgba(47,58,35,.13), 0 1px 3px rgba(47,58,35,.08);
+      display: block;
+    }
+
+    /* ANALYSIS SIDE */
+    .row-analysis {
+      padding: 72px 80px 72px 56px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 36px;
+    }
+
+    .analysis-block { display: flex; flex-direction: column; gap: 0; }
+
+    .analysis-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+    }
+
+    .analysis-tag::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .tag--communicates           { color: var(--moss); }
+    .tag--communicates::before   { background: var(--moss); }
+
+    .tag--weak                   { color: var(--clay); }
+    .tag--weak::before           { background: var(--clay); }
+
+    .tag--potential              { color: rgba(47,58,35,.5); }
+    .tag--potential::before      { background: var(--bark); opacity: .35; }
+
+    .analysis-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .analysis-item {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: rgba(47,58,35,.68);
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .analysis-item::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--clay);
+      opacity: .45;
+    }
+
+    .analysis-item strong {
+      color: var(--bark);
+      font-weight: 500;
+    }
+
+    .analysis-item em {
+      font-style: italic;
+      color: var(--clay);
+    }
+
+    .row-divider {
+      height: 1px;
+      background: rgba(47,58,35,.08);
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="audit-header">
+  <span class="audit-label">Current brand audit · Quirosasun</span>
+  <h1 class="audit-title">A strong foundation<br><em>asking for more.</em></h1>
+  <p class="audit-intro">What quirosasun.com communicates today — section by section. Where it builds trust, where it loses it, and where the biggest opportunities are waiting.</p>
+</header>
+
+
+<!-- ═══ SECTION 1: HERO ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">01 · Hero</p>
+    <img src="./1. Current Homepage and Branding/Section 1 - Hero.png" alt="Hero section">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Local and findable.</strong> "Quiropractico Bilbao" positions clearly for search — visitors know immediately where this practice is.</li>
+        <li class="analysis-item"><strong>Real people, real work.</strong> The photography shows Sara in an actual session — not stock, not staged. That's rare and valuable.</li>
+        <li class="analysis-item"><strong>Approachable and accessible.</strong> The overall tone is friendly, not cold or clinical.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>The green overlay buries the photography.</strong> The strongest asset on the site — Sara in a real session — is filtered green. It reads as a health app, not a specialist practice.</li>
+        <li class="analysis-item"><strong>The logo signals the wrong category.</strong> A green puzzle-piece icon reads as health insurance or a wellness app. Not a serious chiropractic specialist.</li>
+        <li class="analysis-item"><strong>"Quiropractico Bilbao" is an SEO headline, not a brand statement.</strong> It could belong to any of the twenty other practices in the city. No emotional hook. No differentiation.</li>
+        <li class="analysis-item"><strong>Green on green on green.</strong> Logo, overlay, and CTA button all share the same vivid tone — the eye has nowhere to land.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">Remove the tint and let the photography breathe. The session images are genuinely compelling — they don't need filtering.</li>
+        <li class="analysis-item">A single line that no other chiropractor in Bilbao can say would change everything. The headline is the biggest single lever on the entire site.</li>
+        <li class="analysis-item">A refined logo and restrained palette would lift the first impression from "local clinic" to "specialist you trust before you've read a word."</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 2+3: ABOUT + CONDITIONS ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">02 + 03 · About Sara & Conditions</p>
+    <img src="./1. Current Homepage and Branding/Section 2 and 3.png" alt="About and conditions sections">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Sara is the practice.</strong> "Soy Sara" is exactly the right instinct — personal, warm, direct. The visitor knows immediately who they're dealing with.</li>
+        <li class="analysis-item"><strong>Credentials are present.</strong> Barcelona College, master's from Pompeu Fabra, doctorate from the European Academy — the qualifications are visible.</li>
+        <li class="analysis-item"><strong>Broad clinical scope.</strong> The scrolling conditions marquee signals that the practice handles many situations, not just back pain.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>"De confianza" is the most overused phrase in Spanish service businesses.</strong> Every dentist, mechanic, and lawyer uses it. It says nothing specific about Sara.</li>
+        <li class="analysis-item"><strong>The credentials are listed, but the story isn't told.</strong> Why chiropractic? Why Bilbao? Her most powerful brand asset — a personal origin story — is buried on a separate page.</li>
+        <li class="analysis-item"><strong>The conditions marquee is pure SEO logic, not patient logic.</strong> No patient thinks "I have dolor de cuello, let me find a site that lists that word." It reads as a keyword dump, not a human practice.</li>
+        <li class="analysis-item"><strong>Massive bold caps scrolling across the screen clashes with the quiet warmth above it.</strong> The tonal break is jarring.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">Her father's story — discovering chiropractic at 15, the decision that shaped her — is rare brand material. It should anchor this section, not sit hidden in "Sobre Mí."</li>
+        <li class="analysis-item">Replace the conditions list with outcome language: <em>"You came in barely able to turn your head. You left standing straighter."</em> Same information, written for the patient.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 4: VIDEO ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">04 · Educational content</p>
+    <img src="./1. Current Homepage and Branding/Section 4 - Video.png" alt="Video / educational section">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Sara explains, not just adjusts.</strong> The spine model and the clinical setting signal an educational, thoughtful approach to care.</li>
+        <li class="analysis-item"><strong>Real environment, real tools.</strong> The props, the patient, the setting — all authentic. Nothing staged.</li>
+        <li class="analysis-item"><strong>She invests in patient education.</strong> A practitioner who takes time to explain earns a different kind of trust.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>The section drops in without context.</strong> No headline, no framing — the visitor doesn't know what they're about to see or why it matters to them.</li>
+        <li class="analysis-item"><strong>No copy bridges the content to the patient's situation.</strong> A powerful image is left to carry everything alone.</li>
+        <li class="analysis-item"><strong>The branded card visible on the monitor clashes with the site's visual system</strong> — a small but telling sign that the brand isn't yet unified across touchpoints.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">A single framing headline unlocks this section: <em>"Understanding your spine changes how you live in your body."</em></li>
+        <li class="analysis-item">A pull-quote from Sara — something she actually says — could prime the visitor before they watch and make the content land harder.</li>
+        <li class="analysis-item">This section, handled well, is a trust-builder unlike anything else on the page. Most practitioners don't explain. Sara does.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 5: TESTIMONIALS ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">05 · Testimonials</p>
+    <img src="./1. Current Homepage and Branding/Section 5 - Testimonials.png" alt="Testimonials section">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Patients have transformative, emotional experiences.</strong> The reviews are long, specific, and personal — not generic stars.</li>
+        <li class="analysis-item"><strong>The practice generates real loyalty.</strong> <em>"Con ganas de seguir mi tratamiento"</em> — patients don't want to stop. That's a rare signal.</li>
+        <li class="analysis-item"><strong>Outcomes are life-scale, not symptom-scale.</strong> "Cambiar mi relación con mi cuerpo" is a brand-level claim that patients are making on Sara's behalf — unprompted.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>"Esto es lo que Opinan mis Clientes…" is placeholder copy.</strong> It describes what you're about to read without inviting you in. It doesn't honor the quality of the reviews beneath it.</li>
+        <li class="analysis-item"><strong>The slider format hides the strongest asset on the site.</strong> Only two reviews visible at a time. The content is exceptional — and it's being treated as an afterthought.</li>
+        <li class="analysis-item"><strong>Visual hierarchy is flat.</strong> Every word in every review carries the same weight. Nothing pulls out. Nothing lands harder than anything else.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">Lead with a full-width pull-quote from the best review, typeset large — <em>before</em> any heading. Let the patient speak first.</li>
+        <li class="analysis-item">Display at least three reviews in a grid. The content is strong enough to fill the space and the more a visitor reads, the more they trust.</li>
+        <li class="analysis-item">Rename the section. <em>"In their words."</em> or <em>"What changes."</em> does more work in two words than the current heading does in seven.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 6: FAQ ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">06 · FAQ</p>
+    <img src="./1. Current Homepage and Branding/Section 6 - Testimonials.png" alt="FAQ section">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Sara anticipates objections and is transparent.</strong> The FAQ shows real awareness of what first-time patients fear — pain, uncertainty, frequency — and answers honestly.</li>
+        <li class="analysis-item"><strong>Educational and non-intimidating.</strong> A practice that explains this clearly is a practice that respects its patients.</li>
+        <li class="analysis-item"><strong>The questions are the right questions.</strong> "Are adjustments painful?" and "Can I go if I'm pregnant?" are exactly what an anxious first-time visitor needs answered.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Visually, this is the most off-brand section on the site.</strong> Green rounded accordion panels look like a generic Elementor healthcare template — no connection to the warmth or restraint of the sections above.</li>
+        <li class="analysis-item"><strong>Typography hierarchy collapses.</strong> Questions and answers share near-identical visual weight. The eye doesn't know where to land.</li>
+        <li class="analysis-item"><strong>Green saturation peaks exactly here.</strong> The accordion headers are full vivid green — it overwhelms the content and clashes entirely with the soft, human tone the practice wants to project.</li>
+        <li class="analysis-item"><strong>"Preguntas Frecuentes" is a label, not an invitation.</strong> It does nothing for the curious, anxious, or undecided visitor.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">The content is strong — it only needs a visual system to carry it. A typography-driven design without accordion widgets would feel significantly more premium.</li>
+        <li class="analysis-item">Rename to signal care: <em>"Before your first visit"</em> or <em>"What patients usually ask"</em> — same content, completely different emotional entry point.</li>
+        <li class="analysis-item">This is the last piece of persuasion before contact. It should close with a direct CTA: <em>"Ready? Book your first visit."</em></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══ SECTION 7: MAP ═══ -->
+<div class="section-row">
+  <div class="row-image">
+    <p class="img-label">07 · Location & closing</p>
+    <img src="./1. Current Homepage and Branding/Section 7 - Maps.png" alt="Map section">
+  </div>
+  <div class="row-analysis">
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--communicates">What it communicates</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>Local and findable.</strong> The map places the practice clearly in Bilbao — useful for patients gauging distance.</li>
+        <li class="analysis-item"><strong>Functional and direct.</strong> No ambiguity about where to go.</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--weak">Weak points</span>
+      <ul class="analysis-items">
+        <li class="analysis-item"><strong>The site ends with a Google Maps widget.</strong> After building warmth through Sara's story, testimonials, and FAQ, the page closes with a utility embed. It's an anticlimax.</li>
+        <li class="analysis-item"><strong>No address in text — only on the map.</strong> A visitor on mobile who wants to copy or screenshot an address has nowhere to look.</li>
+        <li class="analysis-item"><strong>No closing voice.</strong> Sara doesn't say goodbye. There's no sign-off, no final line that stays with the visitor after they close the tab.</li>
+        <li class="analysis-item"><strong>No final CTA.</strong> The page's last action is "click the map" — not "book an appointment."</li>
+      </ul>
+    </div>
+
+    <div class="row-divider"></div>
+
+    <div class="analysis-block">
+      <span class="analysis-tag tag--potential">Potential</span>
+      <ul class="analysis-items">
+        <li class="analysis-item">Close with Sara's voice before the map: <em>"The first step is often the hardest. I'll take care of the rest."</em></li>
+        <li class="analysis-item">Show address, phone, and hours in readable text above the embed — easy to copy, screenshot, and share.</li>
+        <li class="analysis-item">A prominent "Book a first visit" button here, after all the trust has been built, would convert everything the page worked toward. Right now that moment is left on the table.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

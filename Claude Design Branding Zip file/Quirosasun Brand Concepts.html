@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Quirosasun — Brand Concepts v1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Inter+Tight:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh; height: 100%;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #f0eee9;
+    color: #2F3A23;
+  }
+  body { -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="concepts.jsx"></script>
+  <script type="text/babel" src="brand-board.jsx"></script>
+  <script type="text/babel" src="concept-a.jsx"></script>
+  <script type="text/babel" src="concept-b.jsx"></script>
+  <script type="text/babel" src="concept-c.jsx"></script>
+  <script type="text/babel" src="anatomical-art.jsx"></script>
+  <script type="text/babel" src="anatomical-section.jsx"></script>
+  <script type="text/babel" src="icons-art.jsx"></script>
+  <script type="text/babel" src="icons-section.jsx"></script>
+  <script type="text/babel" src="icons-pictorial.jsx"></script>
+  <script type="text/babel" src="icons-pictorial-section.jsx"></script>
+  <script type="text/babel" src="beneficios-poster.jsx"></script>
+
+  <script type="text/babel">
+    function App() {
+      return (
+        <DesignCanvas>
+          <DCSection
+            id="brand"
+            title="Quirosasun · Brand Concepts v1"
+            subtitle="Same visual system across all three. Differences are typography, CTAs, and writing voice. Click any board to expand."
+          >
+            <DCArtboard id="a" label="A · Editorial Warm — Cormorant + rounded CTAs"
+              width={ARTBOARD_W} height={ARTBOARD_H}>
+              <ConceptA />
+            </DCArtboard>
+            <DCArtboard id="b" label="B · Modern Italic — Instrument Serif + pill CTAs"
+              width={ARTBOARD_W} height={ARTBOARD_H}>
+              <ConceptB />
+            </DCArtboard>
+            <DCArtboard id="c" label="C · Quiet Modern — Inter Tight + sharp CTAs"
+              width={ARTBOARD_W} height={ARTBOARD_H}>
+              <ConceptC />
+            </DCArtboard>
+          </DCSection>
+          <DCSection
+            id="logos"
+            title="Logo Concepts — all variations"
+            subtitle="Six logo directions from the exploration process. Click any to expand full-screen."
+          >
+            <DCArtboard id="logo-c4" label="Concepto 4 — Vertebrae column (current)" width={1448} height={1086}>
+              <img src="assets/logo-c4.png" alt="Logo Concept 4" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+            <DCArtboard id="logo-c3" label="Concepto 3 — Gentle evolution" width={1448} height={1086}>
+              <img src="assets/logo-c3.png" alt="Logo Concept 3" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+            <DCArtboard id="logo-c6v1" label="Concepto 6 V1 — Face · botanical · vertebrae" width={1448} height={1086}>
+              <img src="assets/logo-c6-v1.png" alt="Logo Concept 6 V1" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+            <DCArtboard id="logo-c6v2" label="Concepto 6 V2 — Face · botanical · varied" width={1448} height={1086}>
+              <img src="assets/logo-c6-v2.png" alt="Logo Concept 6 V2" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+            <DCArtboard id="logo-c6v3" label="Concepto 6 V3 — Face · line · birds" width={1448} height={1086}>
+              <img src="assets/logo-c6-v3.png" alt="Logo Concept 6 V3" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+            <DCArtboard id="logo-c6v4" label="Concepto 6 V4 — Face · dots · minimal" width={1448} height={1086}>
+              <img src="assets/logo-c6-v4.png" alt="Logo Concept 6 V4" style={{width:'100%',height:'100%',display:'block',objectFit:'cover'}} />
+            </DCArtboard>
+          </DCSection>
+          <DCSection
+            id="anatomy"
+            title="Anatomical illustration system"
+          >
+            <DCArtboard id="anat-board" label="Anatomical illustrations — directions A · B · C + applications"
+              width={ANAT_SECTION_W} height={ANAT_SECTION_H}>
+              <AnatomicalIllustrationBoard />
+            </DCArtboard>
+          </DCSection>
+          <DCSection
+            id="icons"
+            title="Icon system"
+            subtitle="Ten icons across three style families. Pick one direction; don’t mix."
+          >
+            <DCArtboard id="icons-board" label="Icon system — 10 icons × 3 directions + applications"
+              width={ICONS_SECTION_W} height={ICONS_SECTION_H}>
+              <IconSystemBoard />
+            </DCArtboard>
+            <DCArtboard id="icons-pictorial" label="Icon system v2 — pictorial fine line (Bone + Moss boards)"
+              width={PICT_SECTION_W} height={PICT_SECTION_H}>
+              <PictorialIconBoard />
+            </DCArtboard>
+            <DCArtboard id="beneficios-editable" label="Beneficios — Editable rebuild (text & icons swappable)"
+              width={1500} height={1000}>
+              <BeneficiosPoster />
+            </DCArtboard>
+            <DCArtboard id="beneficios-refs" label="Beneficios — Reference V1 + V2 (1:1 originals, stacked)"
+              width={1536} height={2068}>
+              <div style={{display:'flex',flexDirection:'column',gap:20,
+                           width:'100%',height:'100%',background:'#EDE7DA'}}>
+                <img src="assets/beneficios-v1.png" alt="Beneficios de la quiropráctica — Version 1"
+                     style={{width:'100%',height:1024,display:'block',objectFit:'cover'}} />
+                <img src="assets/beneficios-v2.png" alt="Beneficios de la quiropráctica — Version 2"
+                     style={{width:'100%',height:1024,display:'block',objectFit:'cover'}} />
+              </div>
+            </DCArtboard>
+          </DCSection>
+        </DesignCanvas>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
