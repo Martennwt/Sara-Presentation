@@ -89,12 +89,13 @@ body{background:var(--bone);color:var(--bark);font-family:var(--sans);font-size:
 .menu-btn.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
 
 /* ── MENU HINT ── */
-@keyframes mhIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-@keyframes mhOut{from{opacity:1}to{opacity:0;transform:translateX(-6px)}}
-@keyframes mhArrow{0%,100%{transform:translateX(0)}50%{transform:translateX(-6px)}}
-.menu-hint{position:fixed;top:15px;left:70px;z-index:690;display:flex;align-items:center;gap:10px;pointer-events:none;opacity:0;animation:mhIn .7s cubic-bezier(.22,1,.36,1) 1.2s forwards,mhOut .9s ease 5.4s forwards;}
-.menu-hint-arrow{font-size:17px;color:var(--clay);line-height:1;animation:mhArrow 1.1s ease-in-out 1.9s infinite;}
-.menu-hint-text{font-family:var(--mono);font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--bark);white-space:nowrap;background:var(--bone);padding:7px 14px 7px 13px;border-radius:20px;border:1px solid rgba(47,58,35,.22);box-shadow:0 4px 18px rgba(47,58,35,.13);}
+@keyframes mhIn{from{opacity:0;transform:translateX(-14px) scale(.92)}to{opacity:1;transform:translateX(0) scale(1)}}
+@keyframes mhOut{from{opacity:1;transform:scale(1)}to{opacity:0;transform:translateX(-8px) scale(.94)}}
+@keyframes mhArrow{0%,100%{transform:translateX(0)}45%{transform:translateX(-11px)}55%{transform:translateX(-11px)}}
+@keyframes mhPulse{0%,100%{box-shadow:0 6px 24px rgba(47,58,35,.28)}55%{box-shadow:0 6px 32px rgba(47,58,35,.52),0 0 0 6px rgba(95,111,74,.18)}}
+.menu-hint{position:fixed;top:10px;left:68px;z-index:690;display:flex;align-items:center;gap:12px;pointer-events:none;opacity:0;animation:mhIn .75s cubic-bezier(.22,1,.36,1) 1.5s forwards,mhOut 1s ease 5.8s forwards;}
+.menu-hint-arrow{color:var(--bone);flex-shrink:0;animation:mhArrow 1.2s ease-in-out 2.3s infinite;}
+.menu-hint-text{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone);white-space:nowrap;background:var(--moss);padding:11px 20px 11px 18px;border-radius:28px;border:none;animation:mhPulse 2s ease-in-out 2.3s infinite;}
 
 /* ── MENU PANEL ── */
 .menu-overlay{display:none;}
@@ -869,8 +870,11 @@ section{
 
 <!-- MENU HINT -->
 <div id="menuHint" class="menu-hint" aria-hidden="true">
-  <span class="menu-hint-arrow">←</span>
-  <span class="menu-hint-text">Open the menu — jump to any section</span>
+  <svg class="menu-hint-arrow" width="42" height="32" viewBox="0 0 42 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M38 16 C30 16 20 7 10 12" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+    <path d="M10 12 L3 8 M10 12 L7 19" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span class="menu-hint-text">Open menu — jump to any section</span>
 </div>
 
 <!-- MENU OVERLAY -->
@@ -2071,7 +2075,7 @@ document.querySelectorAll('.figuras-card').forEach(card => {
   var hint = document.getElementById('menuHint');
   if (!hint) return;
   // auto-remove after animation ends
-  setTimeout(function(){ if(hint.parentNode) hint.parentNode.removeChild(hint); }, 6800);
+  setTimeout(function(){ if(hint.parentNode) hint.parentNode.removeChild(hint); }, 7500);
   // also dismiss immediately if user opens the menu
   document.getElementById('menuBtn').addEventListener('click', function(){
     if(hint.parentNode) hint.parentNode.removeChild(hint);
